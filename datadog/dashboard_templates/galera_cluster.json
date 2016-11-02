@@ -1,0 +1,608 @@
+{
+  "title": "Galera Cluster",
+  "description": "Galera Cluster metrics",
+  "template_variables": [
+    {
+      "name": "env",
+      "prefix": "env",
+      "default": "env:prod"
+    },
+    {
+      "name": "customerid",
+      "prefix": "customerid",
+      "default": "customerid:*"
+    },
+    {
+      "name": "host",
+      "prefix": "host",
+      "default": "host:*"
+    }
+  ],
+  "graphs": [
+    {
+      "definition": {
+            "viz": "timeseries",
+            "requests": [
+                {
+                    "q": "avg:mysql.performance.digest_95th_percentile.avg_us{$env,$host,$customerid} by {host} / 1000",
+                    "aggregator": "avg",
+                    "conditional_formats": [],
+                    "type": "bars",
+                    "style": {
+                        "palette": "warm"
+                    }
+                }
+            ]
+        },
+        "title": "95th Percentile Query Response Time (ms)"
+    },
+    {
+        "definition": {
+            "viz": "timeseries",
+            "requests": [
+                {
+                    "q": "avg:system.load.1{$env,$host,$customerid} by {host}",
+                    "aggregator": "avg",
+                    "conditional_formats": [],
+                    "type": "line"
+                }
+            ]
+        },
+        "title": "Load Average"
+    },
+    {
+        "definition": {
+            "viz": "timeseries",
+            "requests": [
+                {
+                    "q": "avg:system.cpu.user{$env,$customerid,$host} by {host}",
+                    "aggregator": "avg",
+                    "conditional_formats": [],
+                    "type": "line"
+                }
+            ]
+        },
+        "title": "CPU %usr"
+    },
+    {
+        "definition": {
+            "viz": "timeseries",
+            "requests": [
+                {
+                    "q": "avg:system.cpu.iowait{$env,$customerid,$host} by {host}",
+                    "conditional_formats": [],
+                    "type": "line",
+                    "aggregator": "avg"
+                }
+            ]
+        },
+        "title": "CPU %iowait"
+    },
+    {
+        "definition": {
+            "viz": "timeseries",
+            "requests": [
+                {
+                    "q": "avg:system.mem.pct_usable{$env,$customerid,$host} by {host} * 100",
+                    "aggregator": "avg",
+                    "style": {
+                        "palette": "warm",
+                        "width": "normal"
+                    },
+                    "type": "line",
+                    "conditional_formats": []
+                }
+            ]
+        },
+        "title": "Memory Free (%)"
+    },
+    {
+        "definition": {
+            "viz": "timeseries",
+            "requests": [
+                {
+                    "q": "( avg:system.disk.free{device:/,$env,$customerid,$host} by {host} / avg:system.disk.total{device:/,$env,$customerid,$host} by {host} ) * 100",
+                    "aggregator": "avg",
+                    "conditional_formats": [],
+                    "type": "bars"
+                }
+            ]
+        },
+        "title": "Disk Free / (%)"
+    },
+    {
+        "definition": {
+            "viz": "timeseries",
+            "requests": [
+                {
+                    "q": "( avg:system.disk.free{device:/var/log/mysql,$env,$customerid,$host} by {host} / avg:system.disk.total{device:/var/log/mysql,$env,$customerid,$host} by {host} ) * 100",
+                    "aggregator": "avg",
+                    "conditional_formats": [],
+                    "type": "bars"
+                }
+            ]
+        },
+        "title": "Disk Free /var/log/mysql (%)"
+    },
+    {
+        "definition": {
+            "viz": "timeseries",
+            "requests": [
+                {
+                    "q": "( avg:system.disk.free{device:/var/lib/mysql,$env,$customerid,$host} by {host} / avg:system.disk.total{device:/var/lib/mysql,$env,$customerid,$host} by {host} ) * 100",
+                    "aggregator": "avg",
+                    "conditional_formats": [],
+                    "type": "bars"
+                }
+            ]
+        },
+        "title": "Disk Free /var/lib/mysql (%)"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "avg:system.io.r_s{$env,$customerid,$host} by {host,device}",
+            "aggregator": "avg",
+            "conditional_formats": [],
+            "type": "area"
+          }
+        ]
+      },
+      "title": "Read IOPS"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "avg:system.io.w_s{$env,$customerid,$host} by {host,device}",
+            "aggregator": "avg",
+            "conditional_formats": [],
+            "type": "area"
+          }
+        ]
+      },
+      "title": "Write IOPS"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "avg:system.io.r_await{$env,$customerid,$host} by {host,device}",
+            "aggregator": "avg",
+            "conditional_formats": [],
+            "type": "area"
+          }
+        ]
+      },
+      "title": "Read Await"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "avg:system.io.w_await{$env,$customerid,$host} by {host,device}",
+            "aggregator": "avg",
+            "conditional_formats": [],
+            "type": "area"
+          }
+        ]
+      },
+      "title": "Write Await"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "avg:system.net.bytes_sent{$env,$customerid,$host} by {host}",
+            "conditional_formats": [],
+            "type": "area",
+            "aggregator": "avg"
+          },
+          {
+            "q": "- avg:system.net.bytes_rcvd{$env,$customerid,$host} by {host}",
+            "type": "area"
+          }
+        ]
+      },
+      "title": "Network Utilization"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "avg:mysql.innodb.buffer_pool_utilization{$env,$customerid,$host} by {host} * 100",
+            "aggregator": "avg",
+            "conditional_formats": [],
+            "type": "bars"
+          }
+        ]
+      },
+      "title": "Buffer Pool Utilization (%)"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "avg:mysql.innodb.buffer_pool_read_requests{$env,$customerid,$host} by {host}",
+            "conditional_formats": [],
+            "type": "area",
+            "aggregator": "avg"
+          }
+        ]
+      },
+      "title": "Buffer Pool Read Requests"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "avg:mysql.innodb.buffer_pool_reads{$env,$customerid,$host} by {host}",
+            "conditional_formats": [],
+            "type": "area",
+            "aggregator": "avg"
+          }
+        ]
+      },
+      "title": "Buffer Pool Reads from Disks"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "avg:mysql.performance.com_select{$env,$customerid,$host} by {host}",
+            "conditional_formats": [],
+            "type": "area",
+            "aggregator": "avg"
+          }
+        ]
+      },
+      "title": "Read QPS"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "avg:mysql.performance.com_update{$env,$customerid,$host} by {host} + avg:mysql.performance.com_insert{$env,$customerid,$host} by {host} + avg:mysql.performance.com_delete{$env,$customerid,$host} by {host} + avg:mysql.performance.com_replace{$env,$customerid,$host} by {host} + avg:mysql.performance.com_insert_select{$env,$customerid,$host} by {host} + avg:mysql.performance.com_replace_select{$env,$customerid,$host} by {host}",
+            "conditional_formats": [],
+            "type": "area",
+            "aggregator": "avg"
+          }
+        ]
+      },
+      "title": "Write QPS"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "avg:mysql.galera.wsrep_cluster_size{$env,$customerid,$host} by {host}",
+            "conditional_formats": [],
+            "type": "bars",
+            "aggregator": "avg"
+          }
+        ]
+      },
+      "title": "Cluster Size"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "avg:mysql.galera.wsrep_flow_control_paused{$env,$customerid,$host} by {host}",
+            "conditional_formats": [],
+            "type": "bars",
+            "aggregator": "avg"
+          }
+        ]
+      },
+      "title": "Galera Flow Control"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "avg:mysql.galera.wsrep_local_recv_queue_avg{$env,$customerid,$host} by {host}",
+            "conditional_formats": [],
+            "type": "bars",
+            "aggregator": "avg"
+          }
+        ]
+      },
+      "title": "Galera Local Receive Queue Length"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "avg:mysql.galera.wsrep_local_send_queue_avg{$env,$customerid,$host} by {host}",
+            "conditional_formats": [],
+            "type": "area",
+            "aggregator": "avg"
+          }
+        ]
+      },
+      "title": "Galera Send Queue Length"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "avg:mysql.performance.created_tmp_disk_tables{$env,$customerid,$host} by {host}",
+            "conditional_formats": [],
+            "type": "area",
+            "aggregator": "avg"
+          }
+        ]
+      },
+      "title": "Created Temporary on-disk Tables"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "avg:mysql.performance.created_tmp_tables{$env,$customerid,$host} by {host}",
+            "conditional_formats": [],
+            "type": "area",
+            "aggregator": "avg"
+          }
+        ]
+      },
+      "title": "Created in-memory Temporary Tables"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "avg:mysql.performance.select_scan{$env,$customerid,$host} by {host}",
+            "conditional_formats": [],
+            "type": "area",
+            "aggregator": "avg"
+          }
+        ]
+      },
+      "title": "Select Scan"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "avg:mysql.performance.opened_tables{$env,$customerid,$host} by {host}",
+            "conditional_formats": [],
+            "type": "area",
+            "aggregator": "avg"
+          }
+        ]
+      },
+      "title": "Opened Tables"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "avg:mysql.performance.threads_running{$env,$customerid,$host} by {host}",
+            "conditional_formats": [],
+            "type": "bars",
+            "aggregator": "avg"
+          }
+        ]
+      },
+      "title": "Threads Running"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "( avg:mysql.performance.threads_connected{$env,$customerid,$host} by {host} / avg:mysql.net.max_connections_available{$env,$customerid,$host} by {host} ) * 100",
+            "conditional_formats": [],
+            "type": "bars",
+            "aggregator": "avg"
+          }
+        ]
+      },
+      "title": "Connection Utilization Percentage"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "avg:mysql.innodb.rows_read{$env,$customerid,$host} by {host}",
+            "conditional_formats": [],
+            "type": "bars",
+            "aggregator": "avg"
+          }
+        ]
+      },
+      "title": "InnoDB Rows Read"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "avg:mysql.innodb.rows_updated{$env,$customerid,$host} by {host}",
+            "aggregator": "avg",
+            "conditional_formats": [],
+            "type": "bars"
+          }
+        ]
+      },
+      "title": "InnoDB Rows Updated"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "avg:mysql.innodb.rows_deleted{$env,$customerid,$host} by {host}",
+            "aggregator": "avg",
+            "conditional_formats": [],
+            "type": "bars"
+          }
+        ]
+      },
+      "title": "InnoDB Rows Deleted"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "avg:mysql.innodb.rows_inserted{$env,$customerid,$host} by {host}",
+            "aggregator": "avg",
+            "conditional_formats": [],
+            "type": "bars"
+          }
+        ]
+      },
+      "title": "InnoDB Rows Inserted"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "avg:mysql.innodb.checkpoint_age{$env,$customerid,$host} by {host}",
+            "conditional_formats": [],
+            "type": "area",
+            "aggregator": "avg"
+          }
+        ]
+      },
+      "title": "InnoDB Checkpoint Age"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "avg:mysql.innodb.active_transactions{$env,$customerid,$host} by {host}",
+            "conditional_formats": [],
+            "type": "area",
+            "aggregator": "avg"
+          }
+        ]
+      },
+      "title": "InnoDB Active Transactions"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "avg:mysql.innodb.history_list_length{$env,$customerid,$host} by {host}",
+            "conditional_formats": [],
+            "type": "bars",
+            "aggregator": "avg"
+          }
+        ]
+      },
+      "title": "InnoDB History List Length"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "avg:mysql.performance.handler_commit{$env,$customerid,$host} by {host}",
+            "conditional_formats": [],
+            "type": "area",
+            "aggregator": "avg"
+          }
+        ]
+      },
+      "title": "Transaction Commits"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "avg:mysql.performance.handler_read_rnd_next{$env,$customerid,$host} by {host}",
+            "conditional_formats": [],
+            "type": "area",
+            "aggregator": "avg"
+          }
+        ]
+      },
+      "title": "Handler Read Random Next"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "avg:mysql.performance.handler_read_next{$env,$customerid,$host} by {host} + avg:mysql.performance.handler_read_prev{$env,$customerid,$host} by {host}",
+            "conditional_formats": [],
+            "type": "area",
+            "aggregator": "avg"
+          }
+        ]
+      },
+      "title": "Handler Range Reads"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "avg:mysql.performance.handler_read_key{$env,$customerid,$host} by {host}",
+            "conditional_formats": [],
+            "type": "area",
+            "aggregator": "avg"
+          }
+        ]
+      },
+      "title": "Handler Read Key"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "avg:mysql.performance.handler_read_rnd{$env,$customerid,$host} by {host}",
+            "conditional_formats": [],
+            "type": "area",
+            "aggregator": "avg"
+          }
+        ]
+      },
+      "title": "Handler Read Random"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "avg:mysql.innodb.row_lock_time{$env,$customerid,$host} by {host}",
+            "aggregator": "avg",
+            "conditional_formats": [],
+            "type": "area"
+          }
+        ]
+      },
+      "title": "InnoDB Row Lock Time"
+    }
+  ]
+}
