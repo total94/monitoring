@@ -16,6 +16,12 @@ def cli(api_key, app_key):
     # Initialize Datadog api access
     initialize(api_key, app_key)
 
+    # Get all the dashboards currently created in datadog
+    dashboards = api.Timeboard.get_all()
+    dashboard_title_id_map = {}
+    for dash in dashboards['dashes']:
+        dashboard_title_id_map[dash['title']] = dash['id']
+
     files = []
     for (dir_path, dir_names, file_names) in os.walk(DASHBOARD_DIR):
         files.extend(file_names)
@@ -37,10 +43,16 @@ def cli(api_key, app_key):
 
             read_only = True
 
-            click.echo('Creating dashboard: %s' % title)
+            if title in dashboard_title_id_map:
+                click.echo('Updating dashboard: %s' % title)
+                api_response = api.Timeboard.update(id=dashboard_title_id_map[title], title=title,
+                                                    description=description, graphs=graphs,
+                                                    template_variables=template_variables, read_only=read_only)
+            else:
+                click.echo('Creating dashboard: %s' % title)
+                api_response = api.Timeboard.create(title=title, description=description, graphs=graphs,
+                                                    template_variables=template_variables, read_only=read_only)
 
-            api_response = api.Timeboard.create(title=title, description=description, graphs=graphs,
-                                                template_variables=template_variables, read_only=read_only)
             if 'errors' in api_response and len(api_response['errors']) > 0:
                 raise Exception("Failed to create dashboard with definition in %s" % def_file)
         except Exception as e:
