@@ -1,0 +1,23 @@
+{
+  "name": "MySQL is unreachable on {{host.name}} (auto)",
+  "tags": [],
+  "type": "service check",
+  "options":
+  {
+    "notify_audit": "False",
+    "locked": "True",
+    "timeout_h": 0,
+    "silenced": {},
+    "thresholds":
+    {
+      "critical": 5,
+      "ok": 5
+    },
+    "new_host_delay": 300,
+    "notify_no_data": "False",
+    "renotify_interval": 0,
+    "no_data_timeframe": 2
+  },
+  "query": "'mysql.can_connect'.over('role:database').last(6).count_by_status()",
+  "message": "{{#is_alert}}\n@jira-hk-task MySQL is unreachable on {{host.name}} {{host.ip}} {{host.env}} \n{{/is_alert}} \n\n{{#is_recovery}}\n@jira-update MySQL is reachable again on {{host.name}} {{host.ip}} {{host.env}} \n{{/is_recovery}}"
+}

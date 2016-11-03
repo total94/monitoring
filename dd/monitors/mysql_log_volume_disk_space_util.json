@@ -1,0 +1,24 @@
+{
+  "name": "MySQL logdir volume has high disk space utilization on {{host.name}} (auto)",
+  "tags": [],
+  "type": "query alert",
+  "options":
+  {
+    "notify_audit": "False",
+    "locked": "True",
+    "timeout_h": 0,
+    "silenced": {},
+    "thresholds":
+    {
+      "critical": 10.0,
+      "warning": 15.0
+    },
+    "new_host_delay": 300,
+    "require_full_window": "True",
+    "notify_no_data": "False",
+    "renotify_interval": 0,
+    "no_data_timeframe": 30
+  },
+  "query": "avg(last_15m):( avg:system.disk.free{env:prod,device:/var/log/mysql} by {host} / avg:system.disk.total{env:prod,device:/var/log/mysql} by {host} ) * 100 < 10",
+  "message": "{{#is_alert}}\n@jira-hk-task MySQL logdir volume has high disk space utilization\n{{/is_alert}} \n\n{{#is_recovery}}\n@jira-update MySQL logdir volume disk space utilization is back to normal level\n{{/is_recovery}}"
+}

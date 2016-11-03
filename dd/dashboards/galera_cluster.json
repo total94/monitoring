@@ -1,5 +1,5 @@
 {
-  "title": "Galera Cluster OT",
+  "title": "Galera Cluster (auto)",
   "description": "Galera Cluster metrics",
   "template_variables": [
     {

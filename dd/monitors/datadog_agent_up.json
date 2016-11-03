@@ -1,0 +1,18 @@
+{
+  "name": "No data sent to Datadog from host {{host.name}} (auto)",
+  "tags": [],
+  "type": "service check",
+  "options":
+  {
+    "notify_audit": "False",
+    "locked": "True",
+    "timeout_h": 0,
+    "silenced": {},
+    "no_data_timeframe": 2,
+    "new_host_delay": 300,
+    "notify_no_data": "True",
+    "renotify_interval": 0
+  },
+  "query": "'datadog.agent.up'.over('*').by('host').last(2).count_by_status()",
+  "message": "{{#is_alert}}\n@jira-hk-task \n\nTo confirm the issue:\n\n1. SSH into the host {{host.name}} \n2. Verify datadog is running and collecting metrics by executing the command\n```\nsudo dd-agent info\n```\n{{/is_alert}} \n\n{{#is_recovery}}\n@jira-update Datadog is now receiving data from host {{host.name}} \n{{/is_recovery}}"
+}

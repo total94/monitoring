@@ -1,0 +1,24 @@
+{
+  "name": "Free memory is depleting on {{host.name}} (auto)",
+  "tags": [],
+  "type": "metric alert",
+  "options":
+  {
+    "notify_audit": "False",
+    "locked": "True",
+    "timeout_h": 0,
+    "silenced": {},
+    "thresholds":
+    {
+      "critical": 0.05,
+      "warning": 0.1
+    },
+    "new_host_delay": 300,
+    "require_full_window": "True",
+    "notify_no_data": "False",
+    "renotify_interval": 0,
+    "no_data_timeframe": 30
+  },
+  "query": "avg(last_15m):avg:system.mem.pct_usable{env:prod} by {host} < 0.05",
+  "message": "{{#is_warning}}\n@jira-hk-task Free memory has reached warning level of <= 10%\n{{/is_warning}} \n\n{{#is_alert}}\n@jira-update Free memory has reached critical level of <= 5%\n{{/is_alert}} \n\n{{#is_recovery}}\n@jira-update Free memory is now at normal level of >= 10%\n{{/is_recovery}}"
+}

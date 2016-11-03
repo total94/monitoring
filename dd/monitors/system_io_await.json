@@ -1,0 +1,24 @@
+{
+  "name": "System IO await is abnormal on {{host.name}} (auto)",
+  "tags": [],
+  "type": "query alert",
+  "options":
+  {
+    "notify_audit": "False",
+    "locked": "True",
+    "timeout_h": 0,
+    "silenced": {},
+    "thresholds":
+    {
+      "critical": 0.7,
+      "warning": 0.4
+    },
+    "new_host_delay": 300,
+    "require_full_window": "True",
+    "notify_no_data": "False",
+    "renotify_interval": 0,
+    "no_data_timeframe": 60
+  },
+  "query": "avg(last_30m):anomalies(avg:system.io.await{env:prod} by {host}, 'robust', 2, direction='above') >= 0.7",
+  "message": "{{#is_warning}}\n@jira-hk-task System IO await is abnormal on {{host.name}} {{host.ip}} {{host.env}} \n{{/is_warning}} \n\n{{#is_alert}}\n@jira-update System IO await is abnormally high on {{host.name}} {{host.ip}} {{host.env}} \n{{/is_alert}} \n\n{{#is_recovery}}\n@jira-update System IO await is back to normal on {{host.name}} {{host.ip}} {{host.env}} \n{{/is_recovery}}"
+}

@@ -14,5 +14,6 @@ setup(
     entry_points='''
         [console_scripts]
         dd_generate_dashboards=dd.generate_dashboards:cli
+        dd_generate_monitors=dd.generate_monitors:cli
     ''',
 )

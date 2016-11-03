@@ -5,7 +5,7 @@ import sys
 
 from datadog import initialize, api
 
-DASHBOARD_DIR = 'dd/dashboard_defs'
+DASHBOARD_DIR = 'dd/dashboards'
 DASHBOARD_REQUIRED_FIELDS = ['title', 'description', 'template_variables', 'graphs']
 
 
@@ -36,6 +36,8 @@ def cli(api_key, app_key):
             graphs = dashboard_def['graphs']
 
             read_only = True
+
+            click.echo('Creating dashboard: %s' % title)
 
             api_response = api.Timeboard.create(title=title, description=description, graphs=graphs,
                                                 template_variables=template_variables, read_only=read_only)

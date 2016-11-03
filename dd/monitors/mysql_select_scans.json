@@ -1,0 +1,24 @@
+{
+  "name": "SELECT scans is abnormal on {{host.name}} (auto)",
+  "tags": [],
+  "type": "query alert",
+  "options":
+  {
+    "notify_audit": "False",
+    "locked": "True",
+    "timeout_h": 0,
+    "silenced": {},
+    "thresholds":
+    {
+      "critical": 0.6,
+      "warning": 0.3
+    },
+    "new_host_delay": 300,
+    "require_full_window": "True",
+    "notify_no_data": "False",
+    "renotify_interval": 0,
+    "no_data_timeframe": 60
+  },
+  "query": "avg(last_30m):anomalies(avg:mysql.performance.select_scan{env:prod} by {host}, 'robust', 2, direction='above') >= 0.6",
+  "message": "{{#is_warning}}\n@jira-hk-task SELECT scans is abnormal\n{{/is_warning}} \n\n{{#is_alert}}\n@jira-update SELECT scans is abnormally high\n{{/is_alert}} \n\n{{#is_recovery}}\n@jira-update SELECT scans is now back to normal levels\n{{/is_recovery}}"
+}
