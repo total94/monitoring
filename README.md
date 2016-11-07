@@ -1,4 +1,4 @@
-# TwinDB Monitoring |build-status|
+# TwinDB Monitoring ![alt text](https://travis-ci.org/twindb/monitoring.svg?branch=master "Travis Build Status")
 
 TwinDB monitoring provides a set of Datadog dashboards and monitors that would allow you to monitor your MySQL 
 infrastructure. Scripts are provided to automatically keep the dashboards and monitors defined in Datadog in sync.
