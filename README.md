@@ -16,3 +16,5 @@ Creates the dashboards in Datadog using the dashboard definitions present in the
 
 ## dd_generate_monitors
 Creates the monitors in Datadog using the monitor definitions present in the dd/monitors directory.
+
+**You have to update the monitors templates and replace _@jira-alert-recipient_ with the actual monitor alert recipient.**

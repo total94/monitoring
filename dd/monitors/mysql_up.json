@@ -19,5 +19,5 @@
     "no_data_timeframe": 2
   },
   "query": "'mysql.can_connect'.over('role:database').last(6).count_by_status()",
-  "message": "{{#is_alert}}\n@jira-hk-task MySQL is unreachable on {{host.name}} {{host.ip}} {{host.env}} \n{{/is_alert}} \n\n{{#is_recovery}}\n@jira-update MySQL is reachable again on {{host.name}} {{host.ip}} {{host.env}} \n{{/is_recovery}}"
+  "message": "{{#is_alert}}\n@jira-alert-recipient MySQL is unreachable on {{host.name}} {{host.ip}} {{host.env}} \n{{/is_alert}} \n\n{{#is_recovery}}\n@jira-update MySQL is reachable again on {{host.name}} {{host.ip}} {{host.env}} \n{{/is_recovery}}"
 }

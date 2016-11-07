@@ -20,5 +20,5 @@
     "no_data_timeframe": 30
   },
   "query": "avg(last_15m):( avg:system.disk.free{env:prod,device:/var/log/mysql} by {host} / avg:system.disk.total{env:prod,device:/var/log/mysql} by {host} ) * 100 < 10",
-  "message": "{{#is_alert}}\n@jira-hk-task MySQL logdir volume has high disk space utilization\n{{/is_alert}} \n\n{{#is_recovery}}\n@jira-update MySQL logdir volume disk space utilization is back to normal level\n{{/is_recovery}}"
+  "message": "{{#is_alert}}\n@jira-alert-recipient MySQL logdir volume has high disk space utilization\n{{/is_alert}} \n\n{{#is_recovery}}\n@jira-update MySQL logdir volume disk space utilization is back to normal level\n{{/is_recovery}}"
 }

@@ -20,5 +20,5 @@
     "no_data_timeframe": 60
   },
   "query": "avg(last_30m):anomalies(avg:mysql.galera.wsrep_flow_control_paused{env:prod} by {host}, 'robust', 2, direction='above') >= 0.66",
-  "message": "{{#is_warning}}\n@jira-hk-task Galera flow control is abnormal\n{{/is_warning}} \n\n{{#is_alert}}\n@jira-update Galera flow control is abnormally high\n{{/is_alert}} \n\n{{#is_recovery}}\n@jira-update Galera flow control is now back to normal levels\n{{/is_recovery}}"
+  "message": "{{#is_warning}}\n@jira-alert-recipient Galera flow control is abnormal\n{{/is_warning}} \n\n{{#is_alert}}\n@jira-update Galera flow control is abnormally high\n{{/is_alert}} \n\n{{#is_recovery}}\n@jira-update Galera flow control is now back to normal levels\n{{/is_recovery}}"
 }
