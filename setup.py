@@ -16,4 +16,6 @@ setup(
         dd_generate_dashboards=dd.generate_dashboards:cli
         dd_generate_monitors=dd.generate_monitors:cli
     ''',
+    setup_requires=['pytest-runner'],
+    tests_require=['pytest'],
 )

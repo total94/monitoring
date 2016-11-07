@@ -22,6 +22,10 @@ bootstrap:
 	pip-sync requirements.txt requirements-test.txt
 	pip install --editable .
 
+.PHONY: test
+test:
+	py.test --flakes --full-trace --verbose --cache-clear tests/
+
 .PHONY: clean
 clean:
 	@find . -name "*.pyc" -delete || true
