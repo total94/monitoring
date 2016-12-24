@@ -19,6 +19,6 @@
     "renotify_interval": 0,
     "no_data_timeframe": 2
   },
-  "query": "'ntp.in_sync'.over('*').by('host').last(6).count_by_status()",
+  "query": "'ntp.in_sync'.over('env:prod').by('host').last(6).count_by_status()",
   "message": "Triggers if any host's clock goes out of sync with the time given by NTP. The offset threshold is configured in the Agent's `ntp.yaml` file.\n\nPlease read the [KB article](http://help.datadoghq.com/hc/en-us/articles/204282095-Network-Time-Protocol-NTP-Offset-Issues) on NTP Offset issues for more details on cause and resolution. @jira-alert-recipient"
 }
