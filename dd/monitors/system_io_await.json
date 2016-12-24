@@ -19,6 +19,6 @@
     "renotify_interval": 0,
     "no_data_timeframe": 60
   },
-  "query": "avg(last_30m):anomalies(avg:system.io.await{env:prod} by {host}, 'robust', 2, direction='above') >= 0.7",
+  "query": "avg(last_1h):anomalies(avg:system.io.await{env:prod} by {host}, 'adaptive', 5, direction='above') >= 0.8",
   "message": "{{#is_warning}}\n@jira-alert-recipient System IO await is abnormal on {{host.name}} {{host.ip}} {{host.env}} \n{{/is_warning}} \n\n{{#is_alert}}\n@jira-update System IO await is abnormally high on {{host.name}} {{host.ip}} {{host.env}} \n{{/is_alert}} \n\n{{#is_recovery}}\n@jira-update System IO await is back to normal on {{host.name}} {{host.ip}} {{host.env}} \n{{/is_recovery}}"
 }

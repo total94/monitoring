@@ -19,6 +19,6 @@
     "renotify_interval": 0,
     "no_data_timeframe": 60
   },
-  "query": "avg(last_30m):anomalies(avg:system.load.1{env:prod} by {host}, 'robust', 2, direction='above') >= 0.6",
+  "query": "avg(last_1h):anomalies(avg:system.load.1{env:prod} by {host}, 'adaptive', 5, direction='above') >= 0.8",
   "message": "{{#is_warning}}\n@jira-alert-recipient System load is abnormal on {{host.name}} {{host.ip}} {{host.env}} \n{{/is_warning}} \n\n{{#is_alert}}\n@jira-update System load is abnormally high on {{host.name}} {{host.ip}} {{host.env}} \n{{/is_alert}} \n\n{{#is_recovery}}\n@jira-update System load is within the normal range on {{host.name}} {{host.ip}} {{host.env}} \n{{/is_recovery}}"
 }

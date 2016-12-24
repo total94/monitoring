@@ -19,6 +19,6 @@
     "renotify_interval": 0,
     "no_data_timeframe": 60
   },
-  "query": "avg(last_30m):anomalies(avg:mysql.performance.created_tmp_disk_tables{env:prod} by {host}, 'robust', 2, direction='above') >= 0.6",
+  "query": "avg(last_1h):anomalies(avg:mysql.performance.created_tmp_disk_tables{env:prod} by {host}, 'adaptive', 5, direction='above') >= 0.8",
   "message": "{{#is_warning}}\n@jira-alert-recipient Created temporary table on disk is abnormal\n{{/is_warning}} \n\n{{#is_alert}}\n@jira-update Created temporary table on disk is abnormally high\n{{/is_alert}} \n\n{{#is_recovery}}\n@jira-update Created temporary table on disk is now back to normal levels\n{{/is_recovery}}"
 }
