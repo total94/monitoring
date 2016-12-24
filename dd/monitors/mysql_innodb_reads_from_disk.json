@@ -10,8 +10,8 @@
     "silenced": {},
     "thresholds":
     {
-      "critical": 0.7,
-      "warning": 0.4
+      "critical": 0.8,
+      "warning": 0.5
     },
     "new_host_delay": 300,
     "require_full_window": "True",
