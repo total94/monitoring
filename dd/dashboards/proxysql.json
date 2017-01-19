@@ -1,0 +1,276 @@
+{
+  "title": "ProxySQL (auto)",
+  "description": "ProxySQL metrics",
+  "template_variables": [
+    {
+      "name": "env",
+      "prefix": "env",
+      "default": "env:prod"
+    },
+    {
+      "name": "customerid",
+      "prefix": "customerid",
+      "default": "customerid:*"
+    },
+    {
+      "name": "host",
+      "prefix": "host",
+      "default": "host:*"
+    }
+  ],
+  "graphs": [
+    {
+      "definition": {
+            "viz": "timeseries",
+            "requests": [
+                {
+                    "q": "avg:proxysql.performance.query_sum_time{$env,$host,$customerid,node_type:proxy} by {host} / 1000",
+                    "aggregator": "avg",
+                    "conditional_formats": [],
+                    "type": "bars",
+                    "style": {
+                        "palette": "warm"
+                    }
+                }
+            ]
+        },
+        "title": "ProxySQL Cumulative Query Time (ms)"
+    },
+    {
+        "definition": {
+            "viz": "timeseries",
+            "requests": [
+                {
+                    "q": "avg:proxysql.performance.query_count{$env,$host,$customerid,node_type:proxy} by {host}",
+                    "aggregator": "avg",
+                    "conditional_formats": [],
+                    "type": "area"
+                }
+            ]
+        },
+        "title": "ProxySQL Total QPS"
+    },
+    {
+        "definition": {
+            "viz": "timeseries",
+            "requests": [
+                {
+                    "q": "avg:proxysql.pool.bytes_data_sent{$env,$host,$customerid,node_type:proxy} by {host,proxysql_db_node}",
+                    "aggregator": "avg",
+                    "conditional_formats": [],
+                    "type": "area"
+                },
+                {
+                    "q": "- avg:proxysql.pool.bytes_data_recv{$env,$host,$customerid,node_type:proxy} by {host,proxysql_db_node}",
+                    "type": "area"
+                }
+            ]
+        },
+        "title": "ProxySQL Network Traffic"
+    },
+    {
+        "definition": {
+            "viz": "timeseries",
+            "requests": [
+                {
+                    "q": "avg:system.load.1{$env,$host,$customerid,node_type:proxy} by {host}",
+                    "conditional_formats": [],
+                    "type": "line",
+                    "aggregator": "avg"
+                }
+            ]
+        },
+        "title": "Load Average"
+    },
+    {
+        "definition": {
+            "viz": "timeseries",
+            "requests": [
+                {
+                    "q": "avg:system.cpu.user{$env,$host,$customerid,node_type:proxy} by {host}",
+                    "conditional_formats": [],
+                    "type": "line",
+                    "aggregator": "avg"
+                }
+            ]
+        },
+        "title": "CPU %usr"
+    },
+    {
+        "definition": {
+            "viz": "timeseries",
+            "requests": [
+                {
+                    "q": "avg:system.cpu.iowait{$env,$customerid,$host,node_type:proxy} by {host}",
+                    "conditional_formats": [],
+                    "type": "line",
+                    "aggregator": "avg"
+                }
+            ]
+        },
+        "title": "CPU %iowait"
+    },
+    {
+        "definition": {
+            "viz": "timeseries",
+            "requests": [
+                {
+                    "q": "avg:system.mem.pct_usable{$env,$customerid,$host,node_type:proxy} by {host} * 100",
+                    "aggregator": "avg",
+                    "style": {
+                        "palette": "warm",
+                        "width": "normal"
+                    },
+                    "type": "line",
+                    "conditional_formats": []
+                }
+            ]
+        },
+        "title": "Memory Free (%)"
+    },
+    {
+        "definition": {
+            "viz": "timeseries",
+            "requests": [
+                {
+                    "q": "( avg:system.disk.free{device:/,$env,$customerid,$host,node_type:proxy} by {host} / avg:system.disk.total{device:/,$env,$customerid,$host,node_type:proxy} by {host} ) * 100",
+                    "aggregator": "avg",
+                    "conditional_formats": [],
+                    "type": "bars"
+                }
+            ]
+        },
+        "title": "Disk Free / (%)"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "avg:system.net.bytes_sent{$env,$customerid,$host,node_type:proxy} by {host}",
+            "conditional_formats": [],
+            "type": "area",
+            "aggregator": "avg"
+          },
+          {
+            "q": "- avg:system.net.bytes_rcvd{$env,$customerid,$host,node_type:proxy} by {host}",
+            "type": "area"
+          }
+        ]
+      },
+      "title": "Network Utilization"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "avg:proxysql.client.connections_connected{$env,$host,$customerid,node_type:proxy} by {host}",
+            "aggregator": "avg",
+            "conditional_formats": [],
+            "type": "bars"
+          }
+        ]
+      },
+      "title": "ProxySQL Client Connections Connected"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "avg:proxysql.client.connections_non_idle{$env,$host,$customerid,node_type:proxy} by {host}",
+            "conditional_formats": [],
+            "type": "bars",
+            "aggregator": "avg"
+          }
+        ]
+      },
+      "title": "ProxySQL Client Connections Active"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "avg:proxysql.client.connections_aborted{$env,$host,$customerid,node_type:proxy} by {host}",
+            "conditional_formats": [],
+            "type": "bars",
+            "aggregator": "avg"
+          }
+        ]
+      },
+      "title": "ProxySQL Client Connections Aborted"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "proxysql.server.connections_connected{$env,$host,$customerid,node_type:proxy} by {host}",
+            "conditional_formats": [],
+            "type": "bars",
+            "aggregator": "avg"
+          }
+        ]
+      },
+      "title": "ProxySQL Server Connections Connected"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "avg:proxysql.server.connections_aborted{$env,$host,$customerid,node_type:proxy} by {host}",
+            "conditional_formats": [],
+            "type": "bars",
+            "aggregator": "avg"
+          }
+        ]
+      },
+      "title": "ProxySQL Server Connections Aborted"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "avg:proxysql.questions{$env,$host,$customerid,node_type:proxy} by {host}",
+            "conditional_formats": [],
+            "type": "area",
+            "aggregator": "avg"
+          }
+        ]
+      },
+      "title": "ProxySQL Client Questions"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "avg:proxysql.pool.connections_used{$env,$host,$customerid,node_type:proxy} by {host,proxysql_db_node}",
+            "conditional_formats": [],
+            "type": "bars",
+            "aggregator": "avg"
+          }
+        ]
+      },
+      "title": "ProxySQL Active Backend Connections"
+    },
+    {
+      "definition": {
+        "viz": "timeseries",
+        "requests": [
+          {
+            "q": "avg:proxysql.pool.connections_error{$env,$host,$customerid,node_type:proxy} by {host,proxysql_db_node}",
+            "conditional_formats": [],
+            "type": "bars",
+            "aggregator": "avg"
+          }
+        ]
+      },
+      "title": "ProxySQL Failed Backend Connections"
+    }
+  ]
+}
